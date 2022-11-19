@@ -12,8 +12,6 @@ using System.Data.SQLite;
 namespace appgui;
 public class Form1 : Form
 {
-    string sql;
-    SQLiteCommand command;
     public Button button;
     bool key_valid = false;
     public Button keybutton;
@@ -21,7 +19,6 @@ public class Form1 : Form
     public TextBox licenseKeyBox;
     private static string dbCommand = "Data Source=DemoDB.db;Version=3;New=False;Compress=True;Password=secret;";
     private static SQLiteConnection dbConnection = new SQLiteConnection(dbCommand);
-    private static SQLiteCommand Command = new SQLiteCommand("", dbConnection);
     public Form1()
     {
         Size = new Size(280, 200);
@@ -77,7 +74,6 @@ public class Form1 : Form
         if (ipBox.Text == "1234567890")
         {
             key_valid = true;
-            enCrypt();
             MessageBox.Show("Key is valid");
         }
         else
@@ -99,7 +95,6 @@ public class Form1 : Form
             return;
         }
         MessageBox.Show("Starting SQL");
-        deCrypt();
         openConnection();
         var selectCmd = dbConnection.CreateCommand();
         var selectCmd1 = dbConnection.CreateCommand();
@@ -118,36 +113,10 @@ public class Form1 : Form
                     MessageBox.Show(msg1);
                 }
             }
-            enCrypt();
             
         }
         closeConnection();
         return;
-    }
-
-    private void enCrypt()
-    {
-        sql = "PRAGMA lic='77523-009-0000007-72328';";
-        command = new SQLiteCommand(sql, dbConnection);
-        command.ExecuteNonQuery();
-
-        sql = "PRAGMA rekey='abc123';";
-        command = new SQLiteCommand(sql, dbConnection);
-        command.ExecuteNonQuery();
-    }
-    private void deCrypt()
-    {
-        sql = "PRAGMA rekey='abc123';";
-        command = new SQLiteCommand(sql, dbConnection);
-        command.ExecuteNonQuery();
-
-        sql = "PRAGMA lic='77523-009-0000007-72328';";
-        command = new SQLiteCommand(sql, dbConnection);
-        command.ExecuteNonQuery();
-        //now you have all access to encrypted data.db
-        sql = "PRAGMA lic='';";
-        command = new SQLiteCommand(sql, dbConnection);
-        command.ExecuteNonQuery();
     }
     private void openConnection()
     {
