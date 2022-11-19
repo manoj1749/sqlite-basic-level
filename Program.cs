@@ -19,7 +19,7 @@ public class Form1 : Form
     public Button keybutton;
     public TextBox ipBox;
     public TextBox licenseKeyBox;
-    private static string dbCommand = "Data Source=DemoDB.db;Version=3;New=False;Compress=True;";
+    private static string dbCommand = "Data Source=DemoDB.db;Version=3;New=False;Compress=True;Password=secret;";
     private static SQLiteConnection dbConnection = new SQLiteConnection(dbCommand);
     private static SQLiteCommand Command = new SQLiteCommand("", dbConnection);
     public Form1()
@@ -101,18 +101,6 @@ public class Form1 : Form
         MessageBox.Show("Starting SQL");
         deCrypt();
         openConnection();
-        /*string input = licenseKeyBox.Text;
-        string[] values = input.Split(' ');
-        string FirstName = values[0];
-        string LastName = values[1];
-        MessageBox.Show(FirstName + " " + LastName);
-        using (var transaction = dbConnection.BeginTransaction())
-        {
-            var insertCmd = dbConnection.CreateCommand();
-            insertCmd.CommandText = "INSERT INTO Person VALUES('" + FirstName + "','" + LastName + "')";
-            insertCmd.ExecuteNonQuery();
-            transaction.Commit();
-        }*/
         var selectCmd = dbConnection.CreateCommand();
         var selectCmd1 = dbConnection.CreateCommand();
         selectCmd.CommandText = "SELECT DataType FROM Person";
@@ -131,9 +119,8 @@ public class Form1 : Form
                 }
             }
             enCrypt();
+            
         }
-        //var reader = selectCmd.ExecuteReader(); 
-        //reader.Read();
         closeConnection();
         return;
     }
