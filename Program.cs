@@ -99,8 +99,9 @@ public class Form1 : Form
             return;
         }
         MessageBox.Show("Starting SQL");
+        deCrypt();
         openConnection();
-        string input = licenseKeyBox.Text;
+        /*string input = licenseKeyBox.Text;
         string[] values = input.Split(' ');
         string FirstName = values[0];
         string LastName = values[1];
@@ -111,11 +112,11 @@ public class Form1 : Form
             insertCmd.CommandText = "INSERT INTO Person VALUES('" + FirstName + "','" + LastName + "')";
             insertCmd.ExecuteNonQuery();
             transaction.Commit();
-        }
+        }*/
         var selectCmd = dbConnection.CreateCommand();
         var selectCmd1 = dbConnection.CreateCommand();
-        selectCmd.CommandText = "SELECT FirstName FROM Person";
-        selectCmd1.CommandText = "SELECT LastName FROM Person";
+        selectCmd.CommandText = "SELECT DataType FROM Person";
+        selectCmd1.CommandText = "SELECT Data FROM Person";
         string msg1;
         using (var reader = selectCmd.ExecuteReader())
         {
